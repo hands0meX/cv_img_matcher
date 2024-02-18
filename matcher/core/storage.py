@@ -31,6 +31,10 @@ class ImageDataSet:
         return len(self.h5_file.items()) == 0
 
     def __create_dataset__(self):
+        if not os.path.exists(self.fetch_folder_path):
+            print(f"Folder {self.fetch_folder_path} not found.")
+            return
+
         for filename in os.listdir(self.fetch_folder_path):
             if filename.endswith('.jpg') or filename.endswith('.png'):
                 image_path = os.path.join(self.fetch_folder_path, filename)

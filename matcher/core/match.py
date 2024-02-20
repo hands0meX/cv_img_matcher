@@ -1,18 +1,24 @@
 import os
 import cv2
-from storage import ImageDataSet
+from .storage import ImageDataSet
 
 class Matcher:
-    DEBUG = True
-    def __init__(self, dataset_name):
+    DEBUG = False
+    def __init__(self, dataset_name, debug=False):
+        if debug:
+            self.DEBUG = debug
         self._path = os.path.dirname(os.path.abspath(__file__))
         self.dataset = ImageDataSet(dataset_name)
 
     def match(self, target_image_path):
-        if self.dataset.is_empty():
+        target_image_path = os.path.join(self._path, "../../", target_image_path)
+        if not self.dataset or self.dataset.is_empty():
             print("No dataset found.")
             return None
+
         target_image = cv2.imread(target_image_path, cv2.IMREAD_GRAYSCALE)
+        if self.DEBUG:
+            print("targe_image:", target_image, target_image_path)
         kp1, des1 = self.dataset.sift.detectAndCompute(target_image, None)
         threshold = 0.75
 

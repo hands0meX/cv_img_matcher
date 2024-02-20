@@ -7,10 +7,6 @@ from tqdm import tqdm
 class ImageDataSet:
     DEBUG = False
     def __init__(self, fetch_folder_name, force_update=False):
-        if not os.path.exists(fetch_folder_name):
-            print(f"Folder {fetch_folder_name} not found.")
-            return
-
         _path = os.path.dirname(os.path.abspath(__file__))
         self.fetch_folder_path = os.path.join(_path, "../..", fetch_folder_name)
         self.save_folder_path = os.path.join(_path, "..", "storage")

@@ -1,1 +1,4 @@
+*.pyc
+*.pyo
 matcher/storage/*
+__pycache__/

@@ -12,9 +12,9 @@
 ```shell
 conda env create -f environment.yml & conda activate matcher
 ```
-2. 创建文件夹foo,并将图片放入 foo 文件夹中
+2. 在根目录的 static 文件夹创建文件夹foo,并将图片放入 foo 文件夹中
 ```shell
-mkdir foo
+mkdir -p static/foo
 ```
 3. 体验
 ```shell

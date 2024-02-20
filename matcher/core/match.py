@@ -12,11 +12,17 @@ class Matcher:
 
     def match(self, target_image_path):
         target_image_path = os.path.join(self._path, "../../", target_image_path)
+        if self.DEBUG:
+            print("target_image_path:", target_image_path, self.dataset)
         if not self.dataset or self.dataset.is_empty():
             print("No dataset found.")
-            return None
+            return None, 0
 
         target_image = cv2.imread(target_image_path, cv2.IMREAD_GRAYSCALE)
+        if target_image is None:
+            print(f"Image {target_image_path} not found.")
+            return None, 0
+
         if self.DEBUG:
             print("targe_image:", target_image, target_image_path)
         kp1, des1 = self.dataset.sift.detectAndCompute(target_image, None)

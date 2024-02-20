@@ -6,9 +6,10 @@ from tqdm import tqdm
 
 class ImageDataSet:
     DEBUG = False
-    def __init__(self, fetch_folder_name, force_update=False):
+    def __init__(self, fetch_folder_name, force_update=False, debug=False):
+        self.DEBUG = debug
         _path = os.path.dirname(os.path.abspath(__file__))
-        self.fetch_folder_path = os.path.join(_path, "../..", fetch_folder_name)
+        self.fetch_folder_path = os.path.join(_path, "../../static", fetch_folder_name)
         self.save_folder_path = os.path.join(_path, "..", "storage")
         os.makedirs(self.save_folder_path, exist_ok=True)
         self.dataset_name = fetch_folder_name

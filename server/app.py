@@ -10,6 +10,8 @@ def hello():
 def match():
     matcher = Matcher("foo")
     best_match_path, best_match_similarity = matcher.match("home.jpg")
+    if best_match_path is None:
+        return "No match found."
     return url_for("static", filename=f"{best_match_path}.jpg", _external=False) + f" similarity: {best_match_similarity}"
 
 if __name__ == "__main__":

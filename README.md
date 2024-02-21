@@ -6,6 +6,7 @@
 </p>
 
 ## 快速开始
+### conda环境
 0. 安装conda
 [https://docs.anaconda.com/free/miniconda/](https://docs.anaconda.com/free/miniconda/)
 1. conda环境安装
@@ -21,12 +22,31 @@ mkdir -p static/foo
 python fast_run.py
 ```
 ``` matcher.Match函数 指定一张本地目标图片的地址 ```
-
+### 本地环境
+0. 前置条件
+python版本>=3.8.18
+1. 安装pip包
+```shell
+pip install --no-cache-dir -r requirements.txt
+```
+2. 运行fast_run.py 快速体验
+### docker环境(flask服务)
+0. 安装docker
+桌面版：https://www.docker.com/products/docker-desktop
+服务器版：https://docs.docker.com/engine/install/#server
+1. 打镜像
+```shell
+docker build -t matcher_flask:v1 .
+```
+2. 运行容器
+```shell
+docker run -d -p 5000:5000 matcher_flask:v1
+```
 ## 网络层
 ## 内核 (匹配、特征提取)
 ## TODO:
 - [x] 图片的特征提取并持久化存储与获取
 - [x] 增加server包
-- [ ] docker容器化 + k8s集群化
+- [x] docker容器化
 - [ ] 本地服务部署, 图片集放OSS存储
 - [ ] 功能 toB

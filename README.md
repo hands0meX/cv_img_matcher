@@ -29,7 +29,7 @@ python版本>=3.8.18
 ```shell
 pip install --no-cache-dir -r requirements.txt
 ```
-2. 运行fast_run.py 快速体验
+2. 运行fast_build.py 或 fast_match.py 快速体验
 ### docker环境(flask服务)
 0. 安装docker
 桌面版：https://www.docker.com/products/docker-desktop
@@ -50,3 +50,4 @@ docker run -d -p 5000:5000 matcher_flask:v1
 - [x] docker容器化
 - [ ] 本地服务部署, 图片集放OSS存储
 - [ ] 功能 toB
+- [ ] upload上传的图片使用buffer, imread读取buffer直接提取

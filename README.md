@@ -24,7 +24,7 @@ python fast_run.py
 ``` matcher.Match函数 指定一张本地目标图片的地址 ```
 ### 本地环境
 0. 前置条件
-python版本>=3.8.18
+python>=3.8
 1. 安装pip包
 ```shell
 pip install --no-cache-dir -r requirements.txt
@@ -44,6 +44,11 @@ docker run -d -p 5000:5000 matcher_flask:v1
 ```
 ## 网络层
 ## 内核 (匹配、特征提取)
+## 打包/上传
+```shell
+conda env export --no-builds > environment.yml
+pip freeze > requirements.txt
+```
 ## TODO:
 - [x] 图片的特征提取并持久化存储与获取
 - [x] 增加server包

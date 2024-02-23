@@ -3,6 +3,9 @@ from flask import Flask, url_for, request
 from PIL import Image
 import base64
 import io
+import numpy as np
+import cv2
+import struct
 app = Flask(__name__, static_folder="../static")
 @app.route("/")
 def hello():
@@ -10,6 +13,9 @@ def hello():
 
 @app.route("/upload", methods=["POST"])
 def upload():
+    """
+    get img_base64 => save => cv2.imread => match
+    """
     data = request.json
     image_data_base64 = data.get("image_data")
 
@@ -37,7 +43,32 @@ def upload():
         return "No match found."
     return url_for("static", filename=f"{best_match_path}.jpg", _external=False) + f" similarity: {best_match_similarity}"
 
-# @app.route("add")
+@app.route("/match", methods=["POST"])
+def match():
+    sum_buffer = request.data
+    width = int(request.args.get("w"))
+    height = int(request.args.get("h"))
+    # 切分 ybuffer 和 uvbuffer
+    ybuffer = sum_buffer[:width * height]
+    uvbuffer = sum_buffer[width * height:]
+
+    # 将 ybuffer 和 uvbuffer 转换为 NumPy 数组
+    ybuffer_np = np.frombuffer(ybuffer, dtype=np.uint8)
+    uvbuffer_np = np.frombuffer(uvbuffer, dtype=np.uint8)
+
+    # 重新构造 YUV 图像
+    yuv_image = np.concatenate((ybuffer_np.reshape((height, width)),
+                                uvbuffer_np.reshape((height // 2, width))),
+                                axis=0)
+
+    gray_image = cv2.cvtColor(yuv_image, cv2.COLOR_YUV2GRAY_420)
+    cv2.imwrite("output_gray_image.jpg", gray_image)
+    matcher = Matcher("foo")
+    best_match_path, best_match_similarity = matcher.match_from_cv2(gray_image)
+    if best_match_path is None:
+        return "No match found."
+    return url_for("static", filename=f"{best_match_path}.jpg", _external=False) + f" similarity: {best_match_similarity}"
+    
 
 # if __name__ == "__main__":
 #     app.run("localhost", 5000, True)

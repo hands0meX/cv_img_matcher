@@ -2,10 +2,8 @@ from ..matcher.core.match import Matcher
 from flask import Flask, url_for, request
 from PIL import Image
 import base64
-import io
 import numpy as np
 import cv2
-import struct
 app = Flask(__name__, static_folder="../static")
 @app.route("/")
 def hello():
@@ -62,12 +60,15 @@ def match():
                                 axis=0)
 
     gray_image = cv2.cvtColor(yuv_image, cv2.COLOR_YUV2GRAY_420)
-    cv2.imwrite("output_gray_image.jpg", gray_image)
+    # cv2.imwrite("output_gray_image.jpg", gray_image)
     matcher = Matcher("foo")
     best_match_path, best_match_similarity = matcher.match_from_cv2(gray_image)
     if best_match_path is None:
         return "No match found."
-    return url_for("static", filename=f"{best_match_path}.jpg", _external=False) + f" similarity: {best_match_similarity}"
+    return {
+        "url": url_for("static", filename=f"foo/{best_match_path}.jpg", _external=False),
+        "similarity": best_match_similarity
+    }
     
 
 # if __name__ == "__main__":

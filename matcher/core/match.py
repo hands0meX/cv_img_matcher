@@ -34,6 +34,8 @@ class Matcher:
         for image_name, (keypoints, descriptors) in self.dataset.read_all():
             bf = cv2.BFMatcher()
             matches = bf.knnMatch(des1, descriptors, k=2)
+            if len(matches) == 0:
+                continue
             good_matches = [m for m, n in matches if m.distance < threshold * n.distance]
             similarity = len(good_matches) / len(matches)
 

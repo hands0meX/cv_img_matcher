@@ -46,6 +46,7 @@ def match():
     sum_buffer = request.data
     width = int(request.args.get("w"))
     height = int(request.args.get("h"))
+    dataset = request.args.get("dataset") or "foo"
     # 切分 ybuffer 和 uvbuffer
     ybuffer = sum_buffer[:width * height]
     uvbuffer = sum_buffer[width * height:]
@@ -61,12 +62,12 @@ def match():
 
     gray_image = cv2.cvtColor(yuv_image, cv2.COLOR_YUV2GRAY_420)
     # cv2.imwrite("output_gray_image.jpg", gray_image)
-    matcher = Matcher("foo")
+    matcher = Matcher(dataset, debug=True)
     best_match_path, best_match_similarity = matcher.match_from_cv2(gray_image)
     if best_match_path is None:
         return "No match found."
     return {
-        "url": url_for("static", filename=f"foo/{best_match_path}.jpg", _external=False),
+        "url": url_for("static", filename=f"{dataset}/{best_match_path}.jpg", _external=True),
         "similarity": best_match_similarity
     }
     

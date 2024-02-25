@@ -1,3 +1,3 @@
 from matcher.core.storage import ImageDataSet
 
-dataset = ImageDataSet("foo", force_update=True, debug=True)
+dataset = ImageDataSet("home", force_update=True, debug=True)

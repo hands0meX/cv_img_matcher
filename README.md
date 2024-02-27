@@ -7,7 +7,7 @@
 
 ## 快速开始
 ### conda环境
-0. 安装conda
+0. 安装conda  
 [https://docs.anaconda.com/free/miniconda/](https://docs.anaconda.com/free/miniconda/)
 1. conda环境安装
 ```shell

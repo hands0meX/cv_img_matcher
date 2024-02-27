@@ -27,7 +27,7 @@ python fast_build.py
 ```shell
 python fast_match.py
 ```
-> --debug 开启debug
+> --debug 开启debug  
 > --show 显示匹配图
 
 ``` 注意: 存储之后的数据集的特征检测模式必须和匹配时候设置的相同! ```
@@ -48,7 +48,8 @@ pip install --no-cache-dir -r requirements.txt
 ### docker环境(flask服务)
 0. 安装docker
 
-桌面版：https://www.docker.com/products/docker-desktop
+桌面版：https://www.docker.com/products/docker-desktop  
+
 服务器版：https://docs.docker.com/engine/install/#server
 1. 打镜像
 ```shell
@@ -85,4 +86,4 @@ pip freeze > requirements.txt
 - [x] docker容器化
 - [ ] 本地服务部署, 图片集放OSS存储
 - [ ] 功能 toB
-- [ ] upload上传的图片使用buffer, imread读取buffer直接提取
+- [x] upload上传的图片使用buffer, imread读取buffer直接提取

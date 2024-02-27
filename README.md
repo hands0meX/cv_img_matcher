@@ -1,4 +1,4 @@
-# opencv 匹配器
+# OPENCV 匹配器
 <p>
  <img src="https://img.shields.io/badge/python-blue">
  <img src="https://img.shields.io/badge/opencv-red">
@@ -18,13 +18,27 @@ conda env create -f environment.yml & conda activate matcher
 mkdir -p static/foo
 ```
 3. 体验
+- 提取图片特征
 ```shell
-python fast_run.py
+python fast_build.py
 ```
-``` matcher.Match函数 指定一张本地目标图片的地址 ```
+> --debug 开启debug
+- 对图片集匹配并寻找最匹配的图
+```shell
+python fast_match.py
+```
+> --debug 开启debug
+--show 显示匹配图
+
+``` 注意: 存储之后的数据集的特征检测模式必须和匹配时候设置的相同! ```
+4. 检测耗时情况
+```shell
+python -m line_profiler fast_build.lprof
+python -m line_profiler fast_match.lprof
+```
+
+
 ### 本地环境
-0. 前置条件
-python>=3.8
 1. 安装pip包
 ```shell
 pip install --no-cache-dir -r requirements.txt
@@ -44,6 +58,20 @@ docker run -d -p 5000:5000 matcher_flask:v1
 ```
 ## 网络层
 ## 内核 (匹配、特征提取)
+### 特征检测方法对比:
+| - | 时间(ms) | 存储(M) | 图片 | 测试次数 
+| - | --- | --- | --- | ---
+| SIFT| 1680 ~ 1770 | 12 | 4 | 10
+| ORB | 172 ~ 179 | 8.5 | 4 | 10
+
+### 特征匹配方法对比:
+| - | 时间(ms) | 图片 | 测试次数 | 精确度 |
+| - | --- | --- | --- | -- |
+BF | 87 ~ 89 | 4 | 10 | 较FLANN好
+FLANN | 135 ~ 147 | 4 | 10 | -
+
+``` 以上是在SIFT特征的KNN匹配情况， FLANN在其他情况未知错误待处理! ```
+
 ## 打包/上传
 ```shell
 conda env export --no-builds > environment.yml

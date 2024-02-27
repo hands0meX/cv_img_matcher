@@ -1,12 +1,18 @@
+from enum import Enum
 import h5py
 import numpy as np
 import cv2
 import os
 from tqdm import tqdm
 
+class DetectorType(Enum):
+    SIFT = 'SIFT'
+    # SURF = 'SURF'
+    ORB = 'ORB'
+
 class ImageDataSet:
     DEBUG = False
-    def __init__(self, fetch_folder_name, force_update=False, debug=False):
+    def __init__(self, fetch_folder_name, force_update=False, debug=False, detector_type=DetectorType.ORB):
         self.DEBUG = debug
         _path = os.path.dirname(os.path.abspath(__file__))
         self.fetch_folder_path = os.path.join(_path, "../../static", fetch_folder_name)
@@ -16,11 +22,24 @@ class ImageDataSet:
         self.h5_file = h5py.File(f'{self.save_folder_path}/{self.dataset_name}.h5', 'a')
         self.waiting_list = []
 
-        self.sift = cv2.SIFT_create()
+        if self.DEBUG:
+            print("detector is:",  detector_type)
+
+        if detector_type == DetectorType.SIFT:
+            self.detector = cv2.SIFT_create()
+        # elif detector_type == DetectorType.SURF:
+        #     self.detector = cv2.xfeatures2d.SURF_create()
+        elif detector_type == DetectorType.ORB:
+            self.detector = cv2.ORB_create()
+        else:
+            raise ValueError('Invalid detector type')
+
         if self.is_empty() or force_update:
             if force_update:
-                print(f"Force update {self.dataset_name}.")
+                if self.DEBUG:
+                    print(f"Force update {self.dataset_name}.")
                 self.h5_file.clear()
+
             self.__create_dataset__()
             self.save_all()
 
@@ -63,9 +82,10 @@ class ImageDataSet:
         for image_path, filename in tqdm(self.waiting_list, desc=f"Extracting features from {self.dataset_name}...", total=len(self.waiting_list)):
             image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-            kp, des = self.sift.detectAndCompute(image, None)
+            kp, des = self.detector.detectAndCompute(image, None)
             group = self.h5_file.create_group(filename)
-            print(f"Group {filename} created.")
+            if self.DEBUG:
+                print(f"Group {filename} created.")
 
             kp_data = np.array([(kp[i].pt, kp[i].size, kp[i].angle, kp[i].response, kp[i].octave, kp[i].class_id) for i in range(len(kp))], dtype=[('pt', 'f4', 2), ('size', 'f4'), ('angle', 'f4'), ('response', 'f4'), ('octave', 'i4'), ('class_id', 'i4')])
             group.create_dataset('keypoints', data=kp_data)
@@ -91,7 +111,7 @@ class ImageDataSet:
             print(f"Image {image_name} not found.")
             return
         image = cv2.imread(target_folder_path, cv2.IMREAD_GRAYSCALE)
-        kp, des = self.sift.detectAndCompute(image, None)
+        kp, des = self.detector.detectAndCompute(image, None)
         self.save_one(image_name, kp, des)
 
     def remove(self, image_name):

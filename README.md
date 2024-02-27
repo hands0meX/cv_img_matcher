@@ -28,9 +28,10 @@ python fast_build.py
 python fast_match.py
 ```
 > --debug 开启debug
---show 显示匹配图
+> --show 显示匹配图
 
 ``` 注意: 存储之后的数据集的特征检测模式必须和匹配时候设置的相同! ```
+
 4. 检测耗时情况
 ```shell
 python -m line_profiler fast_build.lprof
@@ -46,6 +47,7 @@ pip install --no-cache-dir -r requirements.txt
 2. 运行fast_build.py 或 fast_match.py 快速体验
 ### docker环境(flask服务)
 0. 安装docker
+
 桌面版：https://www.docker.com/products/docker-desktop
 服务器版：https://docs.docker.com/engine/install/#server
 1. 打镜像

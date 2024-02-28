@@ -57,7 +57,7 @@ docker build -t matcher_flask:v1 .
 ```
 2. 运行容器
 ```shell
-docker run -d -p 5000:5000 matcher_flask:v1
+docker run --rm -d -p 5000:5000 matcher_flask:v1
 ```
 ## 网络层
 ## 内核 (匹配、特征提取)

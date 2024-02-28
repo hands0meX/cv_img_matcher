@@ -45,6 +45,10 @@ python -m line_profiler fast_match.lprof
 pip install --no-cache-dir -r requirements.txt
 ```
 2. 运行fast_build.py 或 fast_match.py 快速体验
+3. 运行本地服务
+```shell
+python -m server.app
+```
 ### docker环境(flask服务)
 0. 安装docker
 

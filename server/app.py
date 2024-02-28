@@ -1,13 +1,17 @@
-from ..matcher.core.match import Matcher
+import sys
+print(sys.path)
+from matcher.core.match import Matcher
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from flask import Flask, url_for, request
-from PIL import Image
 import base64
 import numpy as np
 import cv2
 app = Flask(__name__, static_folder="../static")
 @app.route("/")
 def hello():
-    return "Hello, World!"
+    return "Hello, cv matcher!"
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -72,5 +76,5 @@ def match():
     }
     
 
-# if __name__ == "__main__":
-#     app.run("localhost", 5000, True)
+if __name__ == "__main__":
+    app.run("localhost", 5000, True, True)

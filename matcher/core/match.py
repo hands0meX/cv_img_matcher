@@ -85,16 +85,21 @@ class Matcher:
                     best_matches = matches
         if self.DEBUG:
             print(f"Best match: {best_match_image_path}, similarity: {best_match_similarity}")
+
+        if best_match_image_path == None:
+            return print("No match found.\n")
+
         if self.show_matches_pic:
             best_match_jpg = os.path.join(self.dataset.fetch_folder_path, f"{best_match_image_path}.jpg")
             img2 = cv2.imread(best_match_jpg, cv2.IMREAD_GRAYSCALE)
             if self.matcher_num_method == MatcherNumMethod.KNN:
-                out_img = cv2.drawMatchesKnn(target_image, kp1, img2, best_keypoints, best_matches, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+                out_img = cv2.drawMatchesKnn(target_image, kp1, img2, best_keypoints, best_matches[:50], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
             elif self.matcher_num_method == MatcherNumMethod.SINGLE:
-                out_img = cv2.drawMatches(target_image, kp1, img2, best_keypoints, best_matches, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+                out_img = cv2.drawMatches(target_image, kp1, img2, best_keypoints, best_matches[:50], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
             # 显示图像
             cv2.imshow('Matches', out_img)
+            # cv2.imwrite('matches.jpg', out_img)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
 

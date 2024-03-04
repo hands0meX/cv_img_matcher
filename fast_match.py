@@ -10,7 +10,7 @@ parser.add_argument("--debug", action="store_true", help="Debug mode")
 args = parser.parse_args()
 
 def main():
-    matcher = Matcher("home", debug=args.debug, match_method=MatcherType.FLANN, match_num_method=MatcherNumMethod.KNN, detector_type=DetectorType.SIFT)
+    matcher = Matcher("foo", debug=args.debug, match_method=MatcherType.BF, match_num_method=MatcherNumMethod.KNN, detector_type=DetectorType.ORB)
     matcher.show_matches_pic = args.show
 
     matcher.match("toy.jpg")

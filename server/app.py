@@ -1,5 +1,4 @@
 import sys
-print(sys.path)
 from matcher.core.match import Matcher
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))

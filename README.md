@@ -23,6 +23,8 @@ mkdir -p static/foo
 python fast_build.py
 ```
 > --debug 开启debug
+> --force 强制覆盖数据集  
+
 - 对图片集匹配并寻找最匹配的图
 ```shell
 python fast_match.py

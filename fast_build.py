@@ -4,10 +4,11 @@ from argparse import ArgumentParser
 
 parser = ArgumentParser("fast build")
 parser.add_argument("--debug", action="store_true", help="Debug mode")
+parser.add_argument("--force", action="store_true", help="Force update dataset")
 args = parser.parse_args()
 
 def main():
-    ImageDataSet("home", force_update=True, debug=args.debug, detector_type=DetectorType.SIFT)
+    ImageDataSet("foo", force_update=args.force, debug=args.debug, detector_type=DetectorType.ORB)
 
 if __name__ == "__main__":
     profiler = LineProfiler()
